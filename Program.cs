@@ -12,6 +12,10 @@ List<Scheduling> schedulingList = new List<Scheduling>();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Scheduling API v1");
+    });
 }
 
 app.MapGet(

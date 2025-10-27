@@ -32,3 +32,4 @@
 /home/fellipe/MyProjects/SchedulingApi/obj/Debug/net9.0/SchedulingApi.pdb
 /home/fellipe/MyProjects/SchedulingApi/obj/Debug/net9.0/SchedulingApi.genruntimeconfig.cache
 /home/fellipe/MyProjects/SchedulingApi/obj/Debug/net9.0/ref/SchedulingApi.dll
+/home/fellipe/MyProjects/SchedulingApi/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
