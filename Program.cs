@@ -6,34 +6,54 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+List<Scheduling> schedulingList = new List<Scheduling>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapGet(
+    "/scheduling",
+    () =>
+    {
+        return schedulingList;
+    }
+);
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapPost(
+    "/scheduling",
+    (Scheduling newScheduling) =>
+    {
+        bool dateIsAlreadyTaken = false;
+        foreach (var item in schedulingList)
+        {
+            if (item.Schedule == newScheduling.Schedule)
+            {
+                dateIsAlreadyTaken = true;
+                break;
+            }
+        }
+
+        if (dateIsAlreadyTaken)
+        {
+            return Results.Conflict($"Schedule {newScheduling.Schedule} is already taken.");
+        }
+
+        schedulingList.Add(newScheduling);
+
+        return Results.Created($"/scheduling/{newScheduling.Id}", newScheduling);
+    }
+);
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+class Scheduling
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public int Id { get; set; }
+    public string ClientName { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTime Schedule { get; set; }
 }
