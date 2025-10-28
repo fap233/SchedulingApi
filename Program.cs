@@ -52,12 +52,3 @@ app.MapPost(
 );
 
 app.Run();
-
-class Scheduling
-{
-    public int Id { get; set; }
-    public string ClientName { get; set; }
-    public string Email { get; set; }
-    public string Phone { get; set; }
-    public DateTime Schedule { get; set; }
-}
