@@ -1,12 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using SchedulingApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-List<Scheduling> schedulingList = new List<Scheduling>();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -20,32 +25,28 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet(
     "/scheduling",
-    () =>
+    (AppDbContext db) =>
     {
-        return schedulingList;
+        return db.Schedulings.ToList();
     }
 );
 
 app.MapPost(
     "/scheduling",
-    (Scheduling newScheduling) =>
+    async (Scheduling newScheduling, AppDbContext db) =>
     {
-        bool dateIsAlreadyTaken = false;
-        foreach (var item in schedulingList)
-        {
-            if (item.Schedule == newScheduling.Schedule)
-            {
-                dateIsAlreadyTaken = true;
-                break;
-            }
-        }
+        bool dateIsAlreadyTaken = await db.Schedulings.AnyAsync(item =>
+            item.Schedule == newScheduling.Schedule
+        );
 
         if (dateIsAlreadyTaken)
         {
             return Results.Conflict($"Schedule {newScheduling.Schedule} is already taken.");
         }
 
-        schedulingList.Add(newScheduling);
+        db.Schedulings.Add(newScheduling);
+
+        await db.SaveChangesAsync();
 
         return Results.Created($"/scheduling/{newScheduling.Id}", newScheduling);
     }

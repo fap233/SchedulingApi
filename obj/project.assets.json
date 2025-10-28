@@ -4778,19 +4778,19 @@
     ]
   },
   "packageFolders": {
-    "/home/fell233/.nuget/packages/": {}
+    "/home/fellipe/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/fell233/MyProjects/SchedulingApi/SchedulingApi.csproj",
+      "projectUniqueName": "/home/fellipe/MyProjects/SchedulingApi/SchedulingApi.csproj",
       "projectName": "SchedulingApi",
-      "projectPath": "/home/fell233/MyProjects/SchedulingApi/SchedulingApi.csproj",
-      "packagesPath": "/home/fell233/.nuget/packages/",
-      "outputPath": "/home/fell233/MyProjects/SchedulingApi/obj/",
+      "projectPath": "/home/fellipe/MyProjects/SchedulingApi/SchedulingApi.csproj",
+      "packagesPath": "/home/fellipe/.nuget/packages/",
+      "outputPath": "/home/fellipe/MyProjects/SchedulingApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/fell233/.nuget/NuGet/NuGet.Config"
+        "/home/fellipe/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
